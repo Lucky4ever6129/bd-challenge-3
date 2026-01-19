@@ -158,3 +158,103 @@ NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_VERSION="2025-10"
 
 1. `pnpm dev` -> Start development server
 2. `pnpm codegen` -> Generate storefront api types (`/lib/shopify/graphql`)
+
+---
+
+## Implementation
+
+### ✅ Completed Features
+
+All required features have been implemented:
+
+- ✅ **Product Listing**: Fetches and displays products from Shopify collection
+- ✅ **Product Cards**: Each card includes image, title, price, and Quick View button
+- ✅ **Quick View Modal**: Full-featured modal with all required functionality
+- ✅ **Modal Close Options**: Close button, backdrop click, and Escape key
+- ✅ **Scroll Lock**: Background scroll is locked when modal is open
+- ✅ **Focus Management**: Focus moves into modal on open and returns to trigger on close
+- ✅ **Focus Trap**: Tab navigation is trapped within the modal
+- ✅ **Product Details**: Fetched from Shopify Storefront API via GraphQL
+- ✅ **Loading Skeleton**: Beautiful skeleton state while loading product details
+- ✅ **Responsive Layout**: Two-column desktop, stacked mobile
+- ✅ **Variant Selection**: Pill-style controls with smart state management
+- ✅ **Variant Resolution**: Automatically resolves selected variant from options
+- ✅ **Smart Option Filtering**: Disables unavailable options based on current selection
+- ✅ **Dynamic Updates**: Price and image update when variant changes
+- ✅ **Add to Bag**: Simulated with loading and success states
+- ✅ **Motion Animations**: Backdrop fade, modal entrance/exit, image crossfade, price transitions, button microinteractions
+- ✅ **TypeScript**: Fully typed with no `any` types
+- ✅ **Reduced Motion Support**: Respects `prefers-reduced-motion` preference
+
+### 🎨 Additional Features Implemented
+
+- ✅ **Focus Trap**: Full keyboard navigation support with Tab/Shift+Tab trapping
+- ✅ **Accessibility**: ARIA labels, proper dialog semantics, keyboard support
+- ✅ **Error Handling**: Graceful error handling for API failures
+- ✅ **Edge Cases**: Handles products without options or variants
+- ✅ **Environment Configuration**: Collection handle configurable via environment variable
+
+### 📁 Project Structure
+
+```
+app/
+├── page.tsx                    # Main page with product listing
+├── components/
+│   ├── ProductListing.tsx      # Product grid component
+│   ├── QuickViewModal.tsx      # Main modal with all features
+│   └── ProductSkeleton.tsx     # Loading skeleton component
+├── api/
+│   └── product/[handle]/
+│       └── route.ts            # API route for product details
+lib/
+└── shopify/
+    ├── graphql/
+    │   └── query.ts            # GraphQL queries
+    ├── types.ts                # TypeScript types
+    ├── utils.ts                # Utility functions (variant resolution, etc.)
+    └── serverClient.tsx        # Shopify client configuration
+```
+
+### 🔧 Configuration
+
+The collection handle can be configured via environment variable:
+
+```bash
+NEXT_PUBLIC_SHOPIFY_COLLECTION_HANDLE="your-collection-handle"
+```
+
+If not set, it defaults to `"all"`.
+
+### 🎯 Tradeoffs & Design Decisions
+
+1. **API Route for Product Details**: Used a Next.js API route instead of direct client-side GraphQL to leverage server-side authentication and caching.
+
+2. **Variant Resolution Logic**: Implemented a custom variant resolution algorithm that handles partial selections and unavailable variants gracefully.
+
+3. **Animation Performance**: Used Motion's `AnimatePresence` for smooth transitions while respecting reduced motion preferences.
+
+4. **State Management**: Used React hooks for state management - kept it simple and local to components rather than introducing a global state library.
+
+5. **Type Safety**: Created comprehensive TypeScript types for all Shopify responses to ensure type safety throughout the application.
+
+### 🚀 What I'd Do With More Time
+
+1. **Route-based Modal**: Implement URL-based modal state (`/products/[handle]`) for better shareability and browser history support.
+
+2. **Prefetching**: Add product detail prefetching on product card hover to reduce perceived load time.
+
+3. **Image Gallery**: Add thumbnail gallery with animated selection states for products with multiple images.
+
+4. **Keyboard Navigation**: Enhanced keyboard navigation with arrow keys for option selection.
+
+5. **Request Cancellation**: Implement AbortController to cancel in-flight requests when rapidly switching between products.
+
+6. **Optimistic UI**: Show previous product content while loading new product to avoid flicker.
+
+7. **Error Boundaries**: Add React error boundaries for better error handling and user experience.
+
+8. **Testing**: Add comprehensive unit and integration tests.
+
+9. **Performance**: Implement image optimization and lazy loading for product cards.
+
+10. **Analytics**: Add event tracking for modal interactions and add-to-bag actions.
